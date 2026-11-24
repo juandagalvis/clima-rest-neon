@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Aplicación web para consultar y administrar pronósticos del clima mediante una API REST y una base de datos SQLite.">
+  <meta name="description" content="Aplicación web para consultar y administrar pronósticos del clima mediante una API REST. Usa SQLite en desarrollo local y PostgreSQL de Neon en la nube.">
   <title>Clima REST | Panel de pronósticos</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -41,7 +41,7 @@
           <div class="hero-orbit orbit-two"></div>
           <div class="hero-temp">°C</div>
         </div>
-        <div class="hero-footer"><span>DATOS EN TIEMPO DE CONSULTA</span><span>ASP.NET CORE · SQLITE · REST</span></div>
+        <div class="hero-footer"><span>DATOS EN TIEMPO DE CONSULTA</span><span>ASP.NET CORE · REST · SQLITE LOCAL / NEON CLOUD</span></div>
       </section>
 
       <section class="stats-grid" aria-label="Resumen de pronósticos">
@@ -81,7 +81,7 @@
               </tbody>
             </table>
           </div>
-          <div class="panel-foot"><span><span class="mini-dot"></span> Información sincronizada con SQLite</span><span id="last-updated">—</span></div>
+          <div class="panel-foot"><span><span class="mini-dot"></span> Información sincronizada con la base de datos</span><span id="last-updated">—</span></div>
         </div>
 
         <aside class="form-panel panel">
@@ -129,7 +129,7 @@
 
     <footer class="footer">
       <span>CLIMAREST <span class="footer-muted">· Proyecto académico RESTful</span></span>
-      <span>ASP.NET Core 10 · Entity Framework Core · SQLite</span>
+      <span>ASP.NET Core 10 · Entity Framework Core · SQLite local / PostgreSQL Neon</span>
     </footer>
   </div>
   <script src="/js/app.js" defer></script>
