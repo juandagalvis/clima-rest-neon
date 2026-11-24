@@ -4,9 +4,18 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
+
+  <!--
+    La carpeta ClimaREST_RenderNeon puede aparecer anidada al subir el ZIP
+    desde el Explorador. Excluimos sus .cs para evitar compilar dos veces
+    los controladores y modelos cuando se abre esta solución en Visual Studio.
+  -->
+  <ItemGroup>
+    <Compile Remove="ClimaREST_RenderNeon/**/*.cs" />
+  </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.15" />
-    <!-- SQLite queda como opción local; Render usará PostgreSQL de Neon. -->
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.15" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.3" />
   </ItemGroup>
