@@ -1,0 +1,33 @@
+@baseUrl = http://localhost:5160
+
+### Salud de la aplicación
+GET {{baseUrl}}/health
+
+### Consultar pronósticos
+GET {{baseUrl}}/api/weatherforecast
+
+### Consultar pronóstico por ID
+GET {{baseUrl}}/api/weatherforecast/1
+
+### Crear pronóstico
+POST {{baseUrl}}/api/weatherforecast
+Content-Type: application/json
+
+{
+  "date": "2026-11-25",
+  "temperatureC": 23,
+  "summary": "Parcialmente nublado"
+}
+
+### Actualizar pronóstico (reemplaza 1 por el ID existente)
+PUT {{baseUrl}}/api/weatherforecast/1
+Content-Type: application/json
+
+{
+  "date": "2026-11-26",
+  "temperatureC": 25,
+  "summary": "Soleado"
+}
+
+### Eliminar pronóstico (reemplaza 1 por el ID existente)
+DELETE {{baseUrl}}/api/weatherforecast/1

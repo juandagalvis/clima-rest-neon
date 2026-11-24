@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Aplicación web para consultar y administrar pronósticos del clima mediante una API REST y una base de datos SQLite.">
+  <title>Clima REST | Panel de pronósticos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="Clima REST, inicio">
+        <span class="brand-mark" aria-hidden="true">☼</span>
+        <span>clima<span class="brand-light">REST</span></span>
+      </a>
+      <nav class="topnav" aria-label="Navegación principal">
+        <a class="nav-link active" href="/">Panel</a>
+        <a class="nav-link" href="/openapi/v1.json" target="_blank" rel="noopener">API REST <span aria-hidden="true">↗</span></a>
+      </nav>
+      <div class="api-status"><span class="status-dot"></span> Servicio activo</div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">CENTRO DE INFORMACIÓN METEOROLÓGICA</p>
+          <h1>El clima, bajo<br><span>tu control.</span></h1>
+          <p class="hero-description">Consulta y administra pronósticos desde una aplicación conectada a una base de datos. Cada cambio se guarda y queda disponible a través de la API REST.</p>
+          <a class="hero-link" href="#pronosticos">Ver pronósticos <span aria-hidden="true">↓</span></a>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <div class="sun-glow"></div>
+          <div class="sun">☀</div>
+          <div class="cloud cloud-one"><i></i><i></i><i></i></div>
+          <div class="cloud cloud-two"><i></i><i></i><i></i></div>
+          <div class="hero-orbit orbit-one"></div>
+          <div class="hero-orbit orbit-two"></div>
+          <div class="hero-temp">°C</div>
+        </div>
+        <div class="hero-footer"><span>DATOS EN TIEMPO DE CONSULTA</span><span>ASP.NET CORE · SQLITE · REST</span></div>
+      </section>
+
+      <section class="stats-grid" aria-label="Resumen de pronósticos">
+        <article class="stat-card">
+          <div class="stat-label">Registros guardados <span class="stat-icon">▤</span></div>
+          <div class="stat-value" id="total-count">—</div>
+          <div class="stat-note">Pronósticos en la base de datos</div>
+        </article>
+        <article class="stat-card">
+          <div class="stat-label">Temperatura promedio <span class="stat-icon">⌁</span></div>
+          <div class="stat-value" id="average-temp">—</div>
+          <div class="stat-note">Promedio de los registros</div>
+        </article>
+        <article class="stat-card">
+          <div class="stat-label">Día más cálido <span class="stat-icon">☀</span></div>
+          <div class="stat-value" id="warmest-temp">—</div>
+          <div class="stat-note" id="warmest-date">Calculando...</div>
+        </article>
+      </section>
+
+      <section class="content-grid" id="pronosticos">
+        <div class="forecast-panel panel">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">CONSULTA DE DATOS</p>
+              <h2>Pronósticos registrados</h2>
+            </div>
+            <button class="button button-quiet" id="refresh-button" type="button" title="Actualizar registros">↻ <span>Actualizar</span></button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>Fecha</th><th>Condición</th><th>Temperatura</th><th class="actions-heading">Acciones</th></tr>
+              </thead>
+              <tbody id="forecast-table">
+                <tr><td colspan="4" class="empty-cell">Cargando registros...</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="panel-foot"><span><span class="mini-dot"></span> Información sincronizada con SQLite</span><span id="last-updated">—</span></div>
+        </div>
+
+        <aside class="form-panel panel">
+          <div class="section-heading form-heading">
+            <div>
+              <p class="eyebrow" id="form-eyebrow">NUEVO REGISTRO</p>
+              <h2 id="form-title">Añadir pronóstico</h2>
+            </div>
+            <span class="form-symbol">＋</span>
+          </div>
+          <form id="forecast-form">
+            <input type="hidden" id="forecast-id">
+            <label for="forecast-date">Fecha</label>
+            <input id="forecast-date" name="date" type="date" required>
+
+            <label for="forecast-summary">Condición climática</label>
+            <select id="forecast-summary" name="summary" required>
+              <option value="" disabled selected>Selecciona una condición</option>
+              <option>Soleado</option>
+              <option>Despejado</option>
+              <option>Parcialmente nublado</option>
+              <option>Nublado</option>
+              <option>Lluvioso</option>
+              <option>Tormenta</option>
+              <option>Brisa</option>
+              <option>Niebla</option>
+            </select>
+
+            <label for="forecast-temperature">Temperatura en °C</label>
+            <div class="temperature-input">
+              <input id="forecast-temperature" name="temperatureC" type="number" min="-80" max="60" value="22" required>
+              <span>°C</span>
+            </div>
+            <p class="field-hint">Valor permitido: entre -80 °C y 60 °C.</p>
+
+            <div class="form-actions">
+              <button class="button button-primary" type="submit" id="save-button">Guardar pronóstico <span aria-hidden="true">↗</span></button>
+              <button class="button button-cancel hidden" type="button" id="cancel-edit">Cancelar</button>
+            </div>
+            <p class="form-feedback" id="form-feedback" role="status" aria-live="polite"></p>
+          </form>
+        </aside>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>CLIMAREST <span class="footer-muted">· Proyecto académico RESTful</span></span>
+      <span>ASP.NET Core 10 · Entity Framework Core · SQLite</span>
+    </footer>
+  </div>
+  <script src="/js/app.js" defer></script>
+</body>
+</html>
