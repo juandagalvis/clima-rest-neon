@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: clima-rest-neon
+    runtime: docker
+    plan: free
+    rootDir: ClimaREST_RenderNeon
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /health
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+      - key: DATABASE_URL
+        sync: false
