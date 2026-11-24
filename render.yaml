@@ -3,9 +3,8 @@ services:
     name: clima-rest-neon
     runtime: docker
     plan: free
-    rootDir: ClimaREST_RenderNeon
-    dockerfilePath: ./Dockerfile
-    dockerContext: .
+    dockerfilePath: ClimaREST_RenderNeon/Dockerfile
+    dockerContext: ClimaREST_RenderNeon
     healthCheckPath: /health
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
